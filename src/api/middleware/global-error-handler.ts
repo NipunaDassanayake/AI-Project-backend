@@ -21,7 +21,7 @@ const GlobalErrorHandlingMiddleware = (
 
     case "Unauthenticated":
       console.log(error);
-      return res
+      return res //
         .status(401)
         .json({ message: error.message.replaceAll("\n", "") });
 
