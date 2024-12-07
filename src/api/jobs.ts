@@ -6,20 +6,20 @@ import {
   getJobById,
   updateJob,
 } from "../application/jobs";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import { clerkMiddleware, requireAuth } from "@clerk/express"; // Updated import
 
 const jobsRouter = express.Router();
 
 jobsRouter
   .route("/")
   .get(getAllJobs)
-  .post(ClerkExpressRequireAuth({}), createJob); //we use clerk's node software devvelopment kit (SDK)
-///to identify if the token that send by front end matches to the data inbackend
+  .post(clerkMiddleware, requireAuth, createJob); // Updated auth middleware
+
 jobsRouter
   .route("/:_id")
-  .get(ClerkExpressRequireAuth({}), getJobById)
-  .delete(deleteJob)
-  .put(updateJob);
+  .get(clerkMiddleware, requireAuth, getJobById) // Updated auth middleware
+  .delete(clerkMiddleware, requireAuth, deleteJob) // Updated auth middleware
+  .put(clerkMiddleware, requireAuth, updateJob); // Updated auth middleware
 
-//Routing
+// Routing
 export default jobsRouter;

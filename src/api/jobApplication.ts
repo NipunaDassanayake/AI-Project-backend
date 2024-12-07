@@ -4,16 +4,17 @@ import {
   getJobApplications,
   getJobApplicationById,
 } from "../application/jobApplication";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import { clerkMiddleware, requireAuth } from "@clerk/express"; // Updated import
 import AuthorizationMiddleware from "./middleware/authorization-middleware";
 
 const jobApplicationRouter = express.Router();
 
 jobApplicationRouter
   .route("/")
-  .post(ClerkExpressRequireAuth({}), createJobApplication)
+  .post(clerkMiddleware, requireAuth, createJobApplication) // Updated auth middleware
   .get(
-    ClerkExpressRequireAuth({}),
+    clerkMiddleware,
+    requireAuth,
     AuthorizationMiddleware,
     getJobApplications
   );
@@ -21,8 +22,10 @@ jobApplicationRouter
 jobApplicationRouter
   .route("/:id")
   .get(
-    ClerkExpressRequireAuth({}),
+    clerkMiddleware,
+    requireAuth,
     AuthorizationMiddleware,
     getJobApplicationById
   );
+
 export default jobApplicationRouter;
