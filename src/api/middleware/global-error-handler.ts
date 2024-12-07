@@ -9,19 +9,27 @@ const GlobalErrorHandlingMiddleware = (
   switch (error.name) {
     case "NotFoundError":
       console.log(error);
-      return res.status(404).json({ message: error.message });
-
-    case "ForbiddenError":
-      console.log(error);
-      return res.status(403).json({ message: error.message });
+      return res
+        .status(404)
+        .json({ message: error.message.replaceAll("\n", "") });
 
     case "ValidationError":
       console.log(error);
-      return res.status(400).json({ message: error.message });
+      return res
+        .status(400)
+        .json({ message: error.message.replaceAll("\n", "") });
 
-    case "Error" || "Unauthenticated":
+    case "Unauthenticated":
       console.log(error);
-      return res.status(401).json({ message: error.message });
+      return res
+        .status(401)
+        .json({ message: error.message.replaceAll("\n", "") });
+
+    case "Error":
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: error.message.replaceAll("\n", "") });
 
     default:
       console.log(error);

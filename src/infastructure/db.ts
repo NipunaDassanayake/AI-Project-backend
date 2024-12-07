@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
   try {
-    const connectionString = process.env.MONGODB_URI;
+    const connectionString = process.env.MONGODB_DATABASE;
     if (!connectionString) {
       throw new Error("Please add the connection String");
     }
@@ -12,6 +12,5 @@ export const connectDB = async () => {
   } catch (error) {
     console.log("DB connection fail");
     console.log(error);
-    
   }
 };
