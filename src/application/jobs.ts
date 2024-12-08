@@ -49,12 +49,19 @@ export const getJobById = async (
   next: NextFunction
 ) => {
   try {
+    console.log(`Received request to find job with ID: ${req.params._id}`); // Log the incoming ID
+
     const job = await Job.findById(req.params._id);
+
     if (!job) {
+      console.log(`Job with ID ${req.params._id} not found`); // Log if job is not found
       throw new NotFoundError("Job not found");
     }
+
+    console.log(`Job found: ${JSON.stringify(job)}`); // Log the job object if found
     return res.status(200).json(job);
   } catch (error) {
+    console.error(`Error fetching job with ID ${req.params._id}:`, error); // Log the error
     next(error);
   }
 };
